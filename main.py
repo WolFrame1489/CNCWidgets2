@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import ( QWidget, QApplication, QHBoxLayout,
                               QGridLayout, QLineEdit, QLabel)
 from PyQt5.QtCore import QSize
 
-class PyQtWindow(QWidget):
+class PyQtWindow(QWidget): # эта функция создает окно на которое будем ставить наши виджежты
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Layouttest")
@@ -25,9 +25,8 @@ class PyQtWindow(QWidget):
         for i, edit in enumerate(self.edits):
             self.layout.addWidget(edit, 2, i)
 
-    def _insert_mywidget(self):                                        # - , layout):
-        self.widget = testwidget.MyWidget(self)
-
+    def _insert_mywidget(self, widget):       # передаем виджет                                 # - , layout):
+        self.widget = widget
         # add my widget
 #        self.layout.addWidget(self.widget, 0, 0, 0, 10)
         self.layout.addWidget(self.widget, 0, 0, 1, 10)                # + 1
@@ -36,7 +35,7 @@ class PyQtWindow(QWidget):
 
 
 app = QApplication(sys.argv)
-asyncio.run(OPCClient.Connect())
+OPCClient.Connect()
 window = PyQtWindow()
 window.show()
 
