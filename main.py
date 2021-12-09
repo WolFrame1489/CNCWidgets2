@@ -1,9 +1,10 @@
 import sys
 import asyncio
+import asyncua
 from CNCWidgets import testwidget
 from CNCActions import OPCClient
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import ( QWidget, QApplication, QHBoxLayout,
+from PyQt5.QtWidgets import (QWidget, QApplication, QHBoxLayout,
                               QGridLayout, QLineEdit, QLabel)
 from PyQt5.QtCore import QSize
 
@@ -32,12 +33,14 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
         self.layout.addWidget(self.widget, 0, 0, 1, 10)                # + 1
 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
-
-
+loop = asyncio.get_event_loop()
+client = asyncua.Client("opc.tcp://localhost:4841/")
 app = QApplication(sys.argv)
-OPCClient.Connect()
-window = PyQtWindow()
-window.show()
+OPCClient.Globalclient = client
+loop.run_until_complete(OPCClient.Connect(client))
+loop.run_until_complete(OPCClient.CNCActionPower())
+#window = PyQtWindow()
+#window.show()
 
 sys.exit(app.exec_())
 
