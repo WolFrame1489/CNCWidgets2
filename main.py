@@ -33,12 +33,13 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
         self.layout.addWidget(self.widget, 0, 0, 1, 10)                # + 1
 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
-loop = asyncio.get_event_loop()
+loop = asyncio.get_event_loop() # луп для корутин
 client = asyncua.Client("opc.tcp://localhost:4841/")
 app = QApplication(sys.argv)
 OPCClient.Globalclient = client
 loop.run_until_complete(OPCClient.Connect(client))
-loop.run_until_complete(OPCClient.CNCActionPower())
+if (loop.run_until_complete(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
+    print("Homed")
 #window = PyQtWindow()
 #window.show()
 
