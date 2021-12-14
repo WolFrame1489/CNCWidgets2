@@ -37,8 +37,10 @@ loop = asyncio.get_event_loop() # луп для корутин
 client = asyncua.Client("opc.tcp://localhost:4841/")
 app = QApplication(sys.argv)
 OPCClient.Globalclient = client
-loop.run_until_complete(OPCClient.Connect(client))
-if (loop.run_until_complete(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
+while (True):
+    if (asyncio.ensure_future(OPCClient.Connect(client))):
+        break
+if (asyncio.ensure_future(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
     print("Homed")
 #window = PyQtWindow()
 #window.show()
