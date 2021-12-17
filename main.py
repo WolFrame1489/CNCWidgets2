@@ -1,7 +1,7 @@
 import sys
 import asyncio
 import asyncua
-from CNCWidgets import testwidget
+from CNCWidgets import ActionButtons
 from CNCActions import OPCClient
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (QWidget, QApplication, QHBoxLayout,
@@ -12,38 +12,42 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Layouttest")
+        self.count = 0
 
         self.layout = QGridLayout()                                   # + self.layout
         self.setLayout(self.layout)
 
-        self._insert_mywidget()                                       # - (layout)
+        #self._insert_mywidget()                                       # - (layout)
 
-        self.labels = [QLabel("Label " + str(i+1)) for i in range(5)]
-        for i, label in enumerate(self.labels):
-            self.layout.addWidget(label, 1, i)
+        #self.labels = [QLabel("Label " + str(i+1)) for i in range(5)]
+        #for i, label in enumerate(self.labels):
+         #   self.layout.addWidget(label, 1, i)
 
-        self.edits = [QLineEdit(self) for _ in range(10)]
-        for i, edit in enumerate(self.edits):
-            self.layout.addWidget(edit, 2, i)
+        #self.edits = [QLineEdit(self) for _ in range(10)]
+        #for i, edit in enumerate(self.edits):
+         #   self.layout.addWidget(edit, 2, i)
 
-    def _insert_mywidget(self, widget):       # передаем виджет                                 # - , layout):
+    def insert_mywidget(self, widget):# передаем виджет                                 # - , layout):
         self.widget = widget
         # add my widget
 #        self.layout.addWidget(self.widget, 0, 0, 0, 10)
-        self.layout.addWidget(self.widget, 0, 0, 1, 10)                # + 1
+        self.layout.addWidget(self.widget, 0, 0, self.count + 1, 10)  # + 1
+        self.count += 1
 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
 loop = asyncio.get_event_loop() # луп для корутин
 client = asyncua.Client("opc.tcp://localhost:4841/")
 app = QApplication(sys.argv)
 OPCClient.Globalclient = client
-while (True):
-    if (asyncio.ensure_future(OPCClient.Connect(client))):
-        break
-if (asyncio.ensure_future(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
-    print("Homed")
-#window = PyQtWindow()
-#window.show()
+loop.run_until_complete(OPCClient.Connect(client))
+#asyncio.run(OPCClient.CNCActionPower(0))
+#if (asyncio.ensure_future(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
+    #print("Homed")
+window = PyQtWindow()
+window.insert_mywidget((ActionButtons.PowerButton()))
+window.insert_mywidget(ActionButtons.HomeAllHereButton())
+print(window.count)
+window.show()
 
 sys.exit(app.exec_())
 

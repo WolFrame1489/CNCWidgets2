@@ -6,10 +6,10 @@ async def Connect(client):
     print("Connected")
     return True
 async def CNCActionPower(power):
+    print("power")
     var = Globalclient.get_node("ns=6;s=::Program:Power")
     dv = ua.DataValue(ua.Variant(power, ua.VariantType.Boolean))
     await var.set_value(dv)
-    print("power")
     return True
 async def CNCActionHoming(axis, homingtype):
     if (axis == "XY"):
