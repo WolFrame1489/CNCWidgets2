@@ -1,8 +1,11 @@
 import sys
 import asyncio
 import asyncua
-from CNCWidgets import ActionButtons
+from CNCWidgets import (ActionButtons, MonitorWidgets
+                        )
 from CNCActions import OPCClient
+from CNCActions import OPCActions
+from CNCActions import OPCSub
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (QWidget, QApplication, QHBoxLayout,
                               QGridLayout, QLineEdit, QLabel)
@@ -36,19 +39,25 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
 loop = asyncio.get_event_loop() # луп для корутин
+
 client = asyncua.Client("opc.tcp://localhost:4841/")
+
 app = QApplication(sys.argv)
+
 OPCClient.Globalclient = client
+OPCActions.Globalclient  = client
+OPCSub.GlobalClient = client
+loop.create_task(OPCClient.subscribe("ns=6;s=::AsGlobalPV:X"))
 loop.run_until_complete(OPCClient.Connect(client))
-#asyncio.run(OPCClient.CNCActionPower(0))
-#if (asyncio.ensure_future(OPCClient.CNCActionHoming("XY",0))): #проверяем готовность
-    #print("Homed")
+loop.run_until_complete((OPCClient.subscribe("ns=6;s=::AsGlobalPV:X")))
+#loop.run_until_complete(OPCSub.main())
+#OPCSub.sub()
+
 window = PyQtWindow()
 window.insert_mywidget((ActionButtons.PowerButton()))
 window.insert_mywidget(ActionButtons.HomeAllHereButton())
-print(window.count)
+window.insert_mywidget(MonitorWidgets.CoordX())
 window.show()
-
 sys.exit(app.exec_())
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

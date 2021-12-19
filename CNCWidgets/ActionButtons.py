@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QPushButton
 import asyncio
-from CNCActions import OPCClient
+from CNCActions import OPCActions
 class PowerButton(QPushButton):
     def __init__(self):
         super(PowerButton, self).__init__()
@@ -10,7 +10,7 @@ class PowerButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionPower(0))
+        self.loop.run_until_complete(OPCActions.CNCActionPower(0))
 class HomeAllHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -20,7 +20,7 @@ class HomeAllHereButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("XY", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("XY", 0))
 class HomeAllEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -30,7 +30,7 @@ class HomeAllEndButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("XY", 3))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("XY", 3))
 class HomeAllOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -40,7 +40,7 @@ class HomeAllOldButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("XY", 1488))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("XY", 1488))
 class HomeXHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -50,7 +50,7 @@ class HomeXHereButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("X", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("X", 0))
 class HomeXEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -60,7 +60,7 @@ class HomeXEndButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("X", 3))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("X", 3))
 class HomeXOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -70,7 +70,7 @@ class HomeXOldButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("X", 1488))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("X", 1488))
 class HomeYHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -80,7 +80,7 @@ class HomeYHereButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("Y", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 0))
 class HomeXEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -90,7 +90,7 @@ class HomeXEndButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("Y", 3))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 3))
 class HomeXOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
@@ -100,4 +100,4 @@ class HomeXOldButton(QPushButton):
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCClient.CNCActionHoming("Y", 1488))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 1488))
