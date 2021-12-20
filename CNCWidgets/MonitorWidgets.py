@@ -27,9 +27,6 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         self.handler = SubscriptionHandler()
 
     def run(self):
-        """
-        Main task of this Client-Subscription example.
-        """
         print("in")
         self.loop = asyncio.new_event_loop()
         self.loop.run_until_complete(self.test())
@@ -77,7 +74,7 @@ class CoordX(QLabel):
         self.setText("sex")
         self.data = 0
         self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:X", widget=self)
-        self.Thread.start()
+        self.Thread.start() #cоздаем отдельный поток qt
         print(threading.active_count())
 
 
