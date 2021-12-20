@@ -38,26 +38,29 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
         self.count += 1
 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
-loop = asyncio.get_event_loop() # луп для корутин
 
-client = asyncua.Client("opc.tcp://localhost:4841/")
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()  # луп для корутин
 
-app = QApplication(sys.argv)
+    client = asyncua.Client("opc.tcp://localhost:4841/")
 
-OPCClient.Globalclient = client
-OPCActions.Globalclient  = client
-OPCSub.GlobalClient = client
-loop.create_task(OPCClient.subscribe("ns=6;s=::AsGlobalPV:X"))
-loop.run_until_complete(OPCClient.Connect(client))
-loop.run_until_complete((OPCClient.subscribe("ns=6;s=::AsGlobalPV:X")))
-#loop.run_until_complete(OPCSub.main())
-#OPCSub.sub()
+    app = QApplication(sys.argv)
 
-window = PyQtWindow()
-window.insert_mywidget((ActionButtons.PowerButton()))
-window.insert_mywidget(ActionButtons.HomeAllHereButton())
-window.insert_mywidget(MonitorWidgets.CoordX())
-window.show()
-sys.exit(app.exec_())
+    OPCClient.Globalclient = client
+    OPCActions.Globalclient = client
+    MonitorWidgets.Globalclient = client
+    OPCSub.GlobalClient = client
+    while True:
+        if (loop.run_until_complete(OPCClient.Connect(client))):
+            break
+    # loop.run_until_complete(OPCClient.subscribe("ns=6;s=::AsGlobalPV:X"))
+    # OPCSub.sub()
+
+    window = PyQtWindow()
+    window.insert_mywidget((ActionButtons.PowerButton()))
+    window.insert_mywidget(ActionButtons.HomeAllHereButton())
+    window.insert_mywidget(MonitorWidgets.CoordX())
+    window.show()
+    sys.exit(app.exec_())
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

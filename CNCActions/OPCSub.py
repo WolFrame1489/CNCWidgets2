@@ -29,6 +29,9 @@ async def main():
     Main task of this Client-Subscription example.
     """
     client = Client("opc.tcp://localhost:4841/")
+    print("connect")
+    await client.connect()
+    print("connected")
     # idx = await client.get_namespace_index(uri="http://examples.freeopcua.github.io")
     var = client.get_node("ns=6;s=::AsGlobalPV:X")
     handler = SubscriptionHandler()
@@ -40,6 +43,8 @@ async def main():
     ]
     # We subscribe to data changes for two nodes (variables).
     await subscription.subscribe_data_change(nodes)
+    print("sub")
+    await asyncio.sleep(0.1)
 
             # We delete the subscription (this un-subscribes from the data changes of the two variables).
             # This is optional since closing the connection will also delete all subscriptions.

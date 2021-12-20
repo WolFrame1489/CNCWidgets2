@@ -47,6 +47,7 @@ async def subscribe(nodestring): #эта функция должна крути�
     # We subscribe to data changes for two nodes (variables).
     await subscription.subscribe_data_change(var)
     print("sub created")
-    await asyncio.sleep((10))
+    await asyncio.sleep(1)
+    #await asyncio.sleep((11))
 
     # We let the subscription run for ten seconds
