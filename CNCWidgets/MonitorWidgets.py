@@ -16,7 +16,7 @@ from concurrent.futures import ProcessPoolExecutor
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from asyncua import Client, Node, ua
-Globalclient = asyncua.Client
+Globalclient = asyncua.Client("opc.tcp://localhost:4841/")
 value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):
@@ -40,7 +40,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.01)
             self.widget.setText(str(handler.value))
 
 

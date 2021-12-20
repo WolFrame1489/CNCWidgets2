@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     OPCClient.Globalclient = client
     OPCActions.Globalclient = client
-    MonitorWidgets.Globalclient = client
+    #MonitorWidgets.Globalclient = client
     while True:
         if (loop.run_until_complete(OPCClient.Connect(client))):
             break
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     # OPCSub.sub()
 
     window = PyQtWindow()
-    window.insert_mywidget(MonitorWidgets.CoordX()) #лейблы должны создавться раньше кнопок хз почему
+    window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему
 
     window.insert_mywidget((ActionButtons.PowerButton()))
     window.insert_mywidget(ActionButtons.HomeAllHereButton())
