@@ -1,7 +1,6 @@
 import asyncua
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import QThread
-from CNCActions import OPCSub
 from asyncqt import QEventLoop, QThreadExecutor
 import asyncio
 import logging

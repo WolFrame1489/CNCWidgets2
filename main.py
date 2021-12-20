@@ -5,7 +5,6 @@ from CNCWidgets import (ActionButtons, MonitorWidgets
                         )
 from CNCActions import OPCClient
 from CNCActions import OPCActions
-from CNCActions import OPCSub
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (QWidget, QApplication, QHBoxLayout,
                               QGridLayout, QLineEdit, QLabel)
@@ -49,7 +48,6 @@ if __name__ == "__main__":
     OPCClient.Globalclient = client
     OPCActions.Globalclient = client
     MonitorWidgets.Globalclient = client
-    OPCSub.GlobalClient = client
     while True:
         if (loop.run_until_complete(OPCClient.Connect(client))):
             break
