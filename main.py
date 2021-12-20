@@ -55,9 +55,10 @@ if __name__ == "__main__":
     # OPCSub.sub()
 
     window = PyQtWindow()
+    window.insert_mywidget(MonitorWidgets.CoordX()) #лейблы должны создавться раньше кнопок хз почему
+
     window.insert_mywidget((ActionButtons.PowerButton()))
     window.insert_mywidget(ActionButtons.HomeAllHereButton())
-    window.insert_mywidget(MonitorWidgets.CoordX())
     window.show()
     sys.exit(app.exec_())
 
