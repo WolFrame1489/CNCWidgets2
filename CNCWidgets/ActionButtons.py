@@ -26,7 +26,7 @@ class HomeAllEndButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА ВСЕ ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -36,7 +36,7 @@ class HomeAllOldButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА ВСЕ ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -46,7 +46,7 @@ class HomeXHereButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА X ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -56,7 +56,7 @@ class HomeXEndButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА x ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -66,7 +66,7 @@ class HomeXOldButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА X ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -76,7 +76,7 @@ class HomeYHereButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА Y ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -86,7 +86,7 @@ class HomeXEndButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА Y ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
@@ -96,8 +96,28 @@ class HomeXOldButton(QPushButton):
         super(HomeAllHereButton, self).__init__()
         self.setText("ВАСЯ ЭТА КНОПКА Y ХОУМИТ")
         self.clicked.connect(self.Act)
-        self.loop = asyncio.new_event_loop()
+        self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
         self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 1488))
+class StartBlockButton(QPushButton):
+    def __init__(self):
+        super(StartBlockButton, self).__init__()
+        self.setText("Start NC Block")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(OPCActions.CNCActionStartBlock(OPCActions.GlobalGCODEString))
+class StopBlockButton(QPushButton):
+    def __init__(self):
+        super(StopBlockButton, self).__init__()
+        self.setText("Stop NC Block")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(OPCActions.CNCActionStopBlock())

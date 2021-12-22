@@ -1,5 +1,6 @@
 from asyncua import (ua, Client)
 Globalclient = Client("opc.tcp://localhost:4841/")
+GlobalGCODEString = "" #cрока для хранения жкода
 async def CNCActionPower(power):
     print("power")
     var = Globalclient.get_node("ns=6;s=::Program:Power")
@@ -42,4 +43,18 @@ async def CNCActionHoming(axis, homingtype):
         await var.set_value(dv)
         if ((await Globalclient.get_node("ns=6;s=::Program:RehomeY").get_value() == True)):
             return True
-
+async def CNCActionStartBlock(block):
+    print("start block")
+    var = Globalclient.get_node("ns=6;s=::AsGlobalPV:InputBlock")
+    dv = ua.DataValue(ua.Variant(block, ua.VariantType.String))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::GCODEinput:Exec")
+    dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
+async def CNCActionStopBlock():
+    print("stop block")
+    var = Globalclient.get_node("ns=6;s=::GCODEinput:Stop")
+    dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
