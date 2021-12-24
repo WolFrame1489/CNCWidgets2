@@ -1,7 +1,6 @@
 import asyncua
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import QThread
-from asyncqt import QEventLoop, QThreadExecutor
 import asyncio
 import logging
 import threading
@@ -9,14 +8,13 @@ import sys
 sys.path.insert(0, "..")
 import os
 # os.environ['PYOPCUA_NO_TYPO_CHECK'] = 'True'
-import qasync
 import asyncio
 import logging
 from concurrent.futures import ProcessPoolExecutor
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from asyncua import Client, Node, ua
-Globalclient = asyncua.Client("opc.tcp://localhost:4841/")
+Globalclient = asyncua.Client("opc.tcp://192.168.133.2:4841/")
 value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):

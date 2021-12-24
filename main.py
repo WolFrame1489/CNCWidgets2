@@ -5,6 +5,7 @@ from CNCWidgets import (ActionButtons, InputString, MonitorWidgets
                         )
 from CNCActions import OPCClient
 from CNCActions import OPCActions
+from CNCActions import FTP
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import (QWidget, QApplication, QHBoxLayout,
                               QGridLayout, QLineEdit, QLabel)
@@ -39,9 +40,9 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
 #        layout.addLayout(self.widget.layout(), 0, 0, 0, 10)
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()  # луп для корутин
-
-    client = asyncua.Client("opc.tcp://localhost:4841/")
+    loop = asyncio.get_event_loop() # луп для корутин
+    FTP.Connect()
+    client = asyncua.Client("opc.tcp://192.168.133.2:4841/")
 
     app = QApplication(sys.argv)
 
@@ -55,12 +56,13 @@ if __name__ == "__main__":
     # OPCSub.sub()
 
     window = PyQtWindow()
+    window.insert_mywidget(ActionButtons.UploadFile())
     window.insert_mywidget(ActionButtons.StartBlockButton())
     window.insert_mywidget(ActionButtons.StopBlockButton())
     window.insert_mywidget(InputString.GCodeInput())
     #window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему
 
-    window.insert_mywidget((ActionButtons.PowerButton()))
+    #window.insert_mywidget((ActionButtons.PowerButton()))
     #window.insert_mywidget(ActionButtons.HomeAllHereButton())
     window.show()
     sys.exit(app.exec_())

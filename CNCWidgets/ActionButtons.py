@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QPushButton
 import asyncio
-from CNCActions import OPCActions
+from CNCActions import (OPCActions, FTP)
 class PowerButton(QPushButton):
     def __init__(self):
         super(PowerButton, self).__init__()
@@ -121,3 +121,13 @@ class StopBlockButton(QPushButton):
         print("YES")
     def Act(self):
         self.loop.run_until_complete(OPCActions.CNCActionStopBlock())
+class UploadFile(QPushButton):
+    def __init__(self):
+        super(UploadFile, self).__init__()
+        self.setText("Upload File")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(FTP.TransferFile())

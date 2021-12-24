@@ -13,7 +13,7 @@ from asyncua import Client, Node, ua
 
 logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('asyncua')
-Globalclient = Client("opc.tcp://localhost:4841/")
+Globalclient = Client("opc.tcp://192.168.133.2:4841/")
 async def Connect(client):
     await client.connect()
     Globalclient = client
