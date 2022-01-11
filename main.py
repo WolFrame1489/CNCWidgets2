@@ -3,6 +3,7 @@ import asyncio
 import asyncua
 from CNCWidgets import (ActionButtons, InputString, MonitorWidgets
                         )
+from PyQt5.Qsci import QsciScintilla, QsciLexerPython
 from CNCActions import OPCClient
 from CNCActions import OPCActions
 from CNCActions import FTP
@@ -41,30 +42,26 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop() # луп для корутин
-    FTP.Connect()
+    #FTP.Connect()
     client = asyncua.Client("opc.tcp://192.168.133.2:4841/")
 
     app = QApplication(sys.argv)
 
     OPCClient.Globalclient = client
     OPCActions.Globalclient = client
-    #MonitorWidgets.Globalclient = client
-    while True:
-        if (loop.run_until_complete(OPCClient.Connect(client))):
-            break
-    # loop.run_until_complete(OPCClient.subscribe("ns=6;s=::AsGlobalPV:X"))
-    # OPCSub.sub()
-
+    #while True:
+        #if (loop.run_until_complete(OPCClient.Connect(client))):
+    #        break
     window = PyQtWindow()
-    window.insert_mywidget(ActionButtons.UploadFile())
-    window.insert_mywidget(ActionButtons.StartBlockButton())
-    window.insert_mywidget(ActionButtons.StopBlockButton())
-    window.insert_mywidget(InputString.GCodeInput())
+    #window.insert_mywidget(ActionButtons.UploadFile())
+    window.layout.addWidget(ActionButtons.StartBlockButton(), 0, 1, 1, 3)
+    window.layout.addWidget(ActionButtons.StopBlockButton(), 1, 2, 1, 3)
+    #window.insert_mywidget(InputString.GCodeInput())
     #window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему
 
     #window.insert_mywidget((ActionButtons.PowerButton()))
     #window.insert_mywidget(ActionButtons.HomeAllHereButton())
     window.show()
     sys.exit(app.exec_())
-
+    print(editor.getCursorPosition())
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
