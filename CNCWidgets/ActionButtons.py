@@ -105,13 +105,33 @@ class StartBlockButton(QPushButton):
 class StopBlockButton(QPushButton):
     def __init__(self):
         super(StopBlockButton, self).__init__()
-        self.setText("Stop NC Block")
+        self.setText("Stop NC Program")
         self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
         self.loop.run_until_complete(OPCActions.CNCActionStopBlock())
+class ContinueBlockButton(QPushButton):
+    def __init__(self):
+        super(ContinueBlockButton, self).__init__()
+        self.setText("Continue NC Program")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(OPCActions.CNCActionContinueBlock())
+class PauseBlockButton(QPushButton):
+    def __init__(self):
+        super(PauseBlockButton, self).__init__()
+        self.setText("Pause NC Program")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(OPCActions.CNCActionPauseBlock())
 class UploadFile(QPushButton):
     def __init__(self):
         super(UploadFile, self).__init__()
@@ -122,3 +142,20 @@ class UploadFile(QPushButton):
         print("YES")
     def Act(self):
         self.loop.run_until_complete(FTP.TransferFile())
+class SwitchModeButton(QPushButton):
+    def __init__(self):
+        super(SwitchModeButton, self).__init__()
+        self.setText("Normal Mode")
+        self.mode = 0
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        if (self.mode == 0):
+            self.mode = 1
+            self.setText('Single step mode')
+        else:
+            self.mode = 0
+            self.setText('Normal Mode')
+        self.loop.run_until_complete(OPCActions.SwitchMode())

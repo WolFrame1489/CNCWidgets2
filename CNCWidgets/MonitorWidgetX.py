@@ -1,17 +1,28 @@
-from PyQt5.QtWidgets import *
-import asyncio
 import asyncua
+from PyQt5.QtWidgets import QLabel
+from PyQt5.QtCore import QThread
+import asyncio
 import logging
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.Qsci import QsciScintilla, QsciLexerPython
+import threading
+import sys
+sys.path.insert(0, "..")
+import os
+# os.environ['PYOPCUA_NO_TYPO_CHECK'] = 'True'
+import asyncio
+import logging
+from concurrent.futures import ProcessPoolExecutor
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+from asyncua import Client, Node, ua
 Globalclient = asyncua.Client("opc.tcp://192.168.133.2:4841/")
+value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):
         super().__init__()
         self.widget = widget
         self.nodestring = nodestring
         self.handler = SubscriptionHandler()
+
     def run(self):
         print("in")
         self.loop = asyncio.new_event_loop()
@@ -20,7 +31,6 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         a = 0
         await Globalclient.connect()
         var = Globalclient.get_node(self.nodestring)
-        varmode = Globalclient.get_node("ns=6;s=::FileInput:Run")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
         subscription = await Globalclient.create_subscription(100, handler)
@@ -28,11 +38,11 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.001)
-            if (await varmode.get_value() == 1):
-                self.widget.setCursorPosition(handler.value - 1, 0)
-                if (list(self.widget.getCursorPosition())[0] != handler.value):
-                    self.widget.setCursorPosition(handler.value - 1, 0)
+            await asyncio.sleep(0.1)
+            self.widget.setText(str(self.widget.starttext + (str(handler.value))))
+
+
+
 
 class SubscriptionHandler():
     """
@@ -50,20 +60,27 @@ class SubscriptionHandler():
         _logger.info('datachange_notification %r %s', node, val)
         self.value = val
         status = 1
+        return value
 logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('asyncua')
 from CNCActions import OPCClient
-class GCodeEditor(QsciScintilla):
-    ARROW_MARKER_NUM = 8
-    def __init__(self, parent=None):
-        super(GCodeEditor, self).__init__(parent)
-        font = QFont()
-        font.setFamily('Courier')
-        font.setFixedPitch(True)
-        font.setPointSize(10)
-        self.setFont(font)
-        self.setMarginsFont(font)
-        self.setCaretLineVisible(1)
-        self.setText(open('testcnc.PRG', 'r').read())
-        self.Thread1 = SubscriptionThread("ns=6;s=::FileInput:CurrentLine", widget=self) #TODO: Поменять на переменную станка для подписки
-        self.Thread1.start()  # cоздаем отдельный поток qt
+p = ProcessPoolExecutor(4)
+class CoordX(QLabel):
+    def __init__(self):
+        super(CoordX, self).__init__()
+        self.setText("X: ")
+        self.starttext = 'X: '
+        self.data = 0
+        self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:X", widget=self)
+        self.Thread.start() #cоздаем отдельный поток qt
+        print(threading.active_count())
+class CoordY(QLabel):
+    def __init__(self):
+        super(CoordY, self).__init__()
+        self.setText("Y: ")
+        self.starttext = 'Y: '
+        self.data = 0
+        self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:Y", widget=self)
+        self.Thread.start() #cоздаем отдельный поток qt
+        print(threading.active_count())
+

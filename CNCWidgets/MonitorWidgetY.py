@@ -38,8 +38,8 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.01)
-            self.widget.setText(str(handler.value))
+            await asyncio.sleep(0.1)
+            self.widget.setText(str(self.widget.starttext + (str(handler.value))))
 
 
 
@@ -64,14 +64,22 @@ class SubscriptionHandler():
 logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('asyncua')
 from CNCActions import OPCClient
-p = ProcessPoolExecutor(1)
+p = ProcessPoolExecutor(4)
 class CoordX(QLabel):
     def __init__(self):
         super(CoordX, self).__init__()
-        self.setText("sex")
+        self.setText("X: ")
+        self.starttext = 'X: '
         self.data = 0
         self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:X", widget=self)
         self.Thread.start() #cоздаем отдельный поток qt
         print(threading.active_count())
-
-
+class CoordY(QLabel):
+    def __init__(self):
+        super(CoordY, self).__init__()
+        self.setText("Y: ")
+        self.starttext = 'Y: '
+        self.data = 0
+        self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:Y", widget=self)
+        self.Thread.start() #cоздаем отдельный поток qt
+        print(threading.active_count())

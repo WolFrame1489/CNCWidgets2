@@ -1,4 +1,5 @@
 from asyncua import (ua, Client)
+import asyncio
 Globalclient = Client("opc.tcp://192.168.133.2:4841/")
 GlobalGCODEString = "" #cрока для хранения жкода
 async def CNCActionPower(power):
@@ -48,13 +49,26 @@ async def CNCActionStartBlock(block):
     #var = Globalclient.get_node("ns=6;s=::AsGlobalPV:InputBlock")
     #dv = ua.DataValue(ua.Variant(block, ua.VariantType.String))
     #await var.set_value(dv)
-    var = Globalclient.get_node("ns=6;s=::GCODEinput:Exec")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Start")
     dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
 async def CNCActionStopBlock():
     print("stop block")
-    var = Globalclient.get_node("ns=6;s=::GCODEinput:Stop")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Stop")
     dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
+async def CNCActionContinueBlock():
+    print("continue block")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Continue")
+    dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
+async def SwitchMode():
+    print("mode change")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Mode")
+    val = await var.get_value()
+    dv = ua.DataValue(ua.Variant(bool(not (val)), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
