@@ -44,7 +44,6 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop() # луп для корутин
     FTP.Connect()
     client = asyncua.Client("opc.tcp://192.168.133.2:4841/")
-
     app = QApplication(sys.argv)
 
     OPCClient.Globalclient = client
@@ -71,5 +70,3 @@ if __name__ == "__main__":
     #window.insert_mywidget(ActionButtons.HomeAllHereButton())
     window.show()
     sys.exit(app.exec_())
-    print(editor.getCursorPosition())
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/

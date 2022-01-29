@@ -65,10 +65,41 @@ async def CNCActionContinueBlock():
     dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
-async def SwitchMode():
+async def SwitchMode(inp):
     print("mode change")
     var = Globalclient.get_node("ns=6;s=::FileInput:Mode")
-    val = await var.get_value()
-    dv = ua.DataValue(ua.Variant(bool(not (val)), ua.VariantType.Boolean))
+    val = inp
+    dv = ua.DataValue(ua.Variant(bool(inp), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
+async def JogMode(inp):
+    print("jog")
+    var = Globalclient.get_node("ns=6;s=::Program:Jogging")
+    val = inp
+    dv = ua.DataValue(ua.Variant(bool((val)), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
+async def CNCActionJogX(am, g, s):
+    var = Globalclient.get_node("ns=6;s=::Program:MoveXAmount")
+    dv = ua.DataValue(ua.Variant(((am)), ua.VariantType.Float))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::Program:MoveXExec")
+    dv = ua.DataValue(ua.Variant((bool(g)), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::Program:StopX")
+    dv = ua.DataValue(ua.Variant((bool(s)), ua.VariantType.Boolean))
+    await var.set_value(dv)
+async def CNCActionJogY(am, g, s):
+    var = Globalclient.get_node("ns=6;s=::Program:MoveYAmount")
+    dv = ua.DataValue(ua.Variant(((am)), ua.VariantType.Float))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::Program:MoveYExec")
+    dv = ua.DataValue(ua.Variant((bool(g)), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::Program:StopY")
+    dv = ua.DataValue(ua.Variant((bool(s)), ua.VariantType.Boolean))
+    await var.set_value(dv)
+async def CNCActionChangeTool(a):
+    var = Globalclient.get_node("ns=6;s=::Program:NeededTool")
+    dv = ua.DataValue(ua.Variant(((a)), ua.VariantType.Int16))
+    await var.set_value(dv)

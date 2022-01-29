@@ -1,6 +1,6 @@
 import ftplib
 import asyncio
-
+text = """"""
 def ftp_upload(ftp_obj, path, ftype='PRG'):
     """
     Функция для загрузки файлов на FTP-сервер
@@ -13,7 +13,6 @@ def ftp_upload(ftp_obj, path, ftype='PRG'):
     else:
         with open(path, 'rb') as fobj:
             ftp_obj.storbinary('STOR ' + path, fobj, 1024)
-
 
 async def TransferFile():
     ftp = ftplib.FTP()

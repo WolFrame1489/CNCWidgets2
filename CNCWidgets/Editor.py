@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 import asyncio
 import asyncua
 import logging
+from CNCActions import FTP
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.Qsci import QsciScintilla, QsciLexerPython
@@ -29,6 +30,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         print("sub created")
         while True:
             await asyncio.sleep(0.001)
+            FTP.text = self.widget.text()
             if (await varmode.get_value() == 1):
                 self.widget.setCursorPosition(handler.value - 1, 0)
                 if (list(self.widget.getCursorPosition())[0] != handler.value):
@@ -65,5 +67,5 @@ class GCodeEditor(QsciScintilla):
         self.setMarginsFont(font)
         self.setCaretLineVisible(1)
         self.setText(open('testcnc.PRG', 'r').read())
-        self.Thread1 = SubscriptionThread("ns=6;s=::FileInput:CurrentLine", widget=self) #TODO: Поменять на переменную станка для подписки
+        self.Thread1 = SubscriptionThread("ns=6;s=::FileInput:CurrentLine", widget=self)
         self.Thread1.start()  # cоздаем отдельный поток qt
