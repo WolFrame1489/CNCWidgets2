@@ -2,6 +2,7 @@ from asyncua import (ua, Client)
 import asyncio
 Globalclient = Client("opc.tcp://192.168.133.2:4841/")
 GlobalGCODEString = "" #cрока для хранения жкода
+Tool = 1
 async def CNCActionPower(power):
     print("power")
     var = Globalclient.get_node("ns=6;s=::Program:Power")
@@ -89,6 +90,7 @@ async def CNCActionJogX(am, g, s):
     var = Globalclient.get_node("ns=6;s=::Program:StopX")
     dv = ua.DataValue(ua.Variant((bool(s)), ua.VariantType.Boolean))
     await var.set_value(dv)
+    return True
 async def CNCActionJogY(am, g, s):
     var = Globalclient.get_node("ns=6;s=::Program:MoveYAmount")
     dv = ua.DataValue(ua.Variant(((am)), ua.VariantType.Float))
@@ -99,7 +101,10 @@ async def CNCActionJogY(am, g, s):
     var = Globalclient.get_node("ns=6;s=::Program:StopY")
     dv = ua.DataValue(ua.Variant((bool(s)), ua.VariantType.Boolean))
     await var.set_value(dv)
-async def CNCActionChangeTool(a):
+    return True
+async def CNCActionChangeTool():
+    global Tool
     var = Globalclient.get_node("ns=6;s=::Program:NeededTool")
-    dv = ua.DataValue(ua.Variant(((a)), ua.VariantType.Int16))
+    dv = ua.DataValue(ua.Variant(((Tool)), ua.VariantType.Int16))
     await var.set_value(dv)
+    return True

@@ -16,17 +16,18 @@ class PowerButton(QPushButton):
 class HomeAllHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
-        self.setText("ВАСЯ ЭТА КНОПКА ВСЕ ХОУМИТ")
+        self.setText("Home All axes in current point")
         self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCActions.CNCActionHoming("XY", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("XY", 1))
 class HomeAllEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home All axes in endswitch")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
@@ -36,6 +37,7 @@ class HomeAllOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home All axes in permanent point")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
@@ -45,15 +47,17 @@ class HomeXHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home X axis in current point")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCActions.CNCActionHoming("X", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("X", 1))
 class HomeXEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home X axis in endswitch")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
@@ -62,6 +66,7 @@ class HomeXEndButton(QPushButton):
 class HomeXOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
+        self.setText("Home X axis in permanent point")
         self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
     def Debug(self):
@@ -72,15 +77,17 @@ class HomeYHereButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home Y axis in current point")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
     def Act(self):
-        self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 0))
+        self.loop.run_until_complete(OPCActions.CNCActionHoming("Y", 1))
 class HomeXEndButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home Y axis in endswitch")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
@@ -90,6 +97,7 @@ class HomeXOldButton(QPushButton):
     def __init__(self):
         super(HomeAllHereButton, self).__init__()
         self.clicked.connect(self.Act)
+        self.setText("Home Y axis in permanent point")
         self.loop = asyncio.get_event_loop()
     def Debug(self):
         print("YES")
@@ -174,10 +182,10 @@ class JoggingModeButton(QPushButton):
     def Act(self):
         if (self.mode == 0):
             self.mode = 1
-            self.setText('Jogging is now OFF')
+            self.setText('Jogging is now ON')
         else:
             self.mode = 0
-            self.setText('Jogging is now ON')
+            self.setText('Jogging is now OFF')
         self.loop.run_until_complete(OPCActions.JogMode(self.mode))
 class JogXPos(QPushButton):
     def __init__(self):
@@ -265,9 +273,7 @@ class ChangeTool(QPushButton):
     def __init__(self):
         super(ChangeTool, self).__init__()
         self.setText("Change Tool")
-        global Tool
-        self.tool = Tool
         self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
     def Act(self):
-        self.loop.run_until_complete(OPCActions.CNCActionChangeTool(self.tool))
+        self.loop.run_until_complete(OPCActions.CNCActionChangeTool())
