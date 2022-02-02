@@ -15,7 +15,7 @@ from concurrent.futures import ProcessPoolExecutor
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from asyncua import Client, Node, ua
-Globalclient = asyncua.Client("opc.tcp://localhost:4841/")
+Globalclient = asyncua.Client("opc.tcp://192.168.133.2:4841/")
 value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):
@@ -32,7 +32,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         a = ''
         await Globalclient.connect()
         var = Globalclient.get_node(self.nodestring)
-        varstring = Globalclient.get_node("ns=6;s=::Program:ErrorText1")
+        varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors1")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
         subscription = await Globalclient.create_subscription(100, handler)
@@ -43,17 +43,17 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
             await asyncio.sleep(0.1)
             if (varstring.get_value() != ''):
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText2")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors2")
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText3")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors3")
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText4")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors4")
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText5")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors5")
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText6")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors6")
                 a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText7")
+                varstring = Globalclient.get_node("ns=6;s=::Program:XAxisErrors7")
                 a = a + varstring.get_value()
 
             self.widget.setText(str(self.widget.starttext + (str(handler.value)) + a))
@@ -90,7 +90,7 @@ class StatusLabel(QLabel):
         self.starttext = 'Last status message: '
         self.data = 0
         self.holder = dict()
-        self.Thread = SubscriptionThread("ns=6;s=::FileInput:ErrorMess", widget=self)
+        self.Thread = SubscriptionThread("ns=6;s=::Program:XError", widget=self)
         self.Thread.start() #cоздаем отдельный поток qt
         print(threading.active_count())
     def readfile(self):
