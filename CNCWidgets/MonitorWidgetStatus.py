@@ -1,4 +1,5 @@
 import asyncua
+import re
 import csv
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import QThread
@@ -30,9 +31,10 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         self.loop.run_until_complete(self.test())
     async def test(self):
         a = ''
+        b =''
         await Globalclient.connect()
         var = Globalclient.get_node(self.nodestring)
-        varstring = Globalclient.get_node("ns=6;s=::Program:ErrorText1")
+        varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText2")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
         subscription = await Globalclient.create_subscription(100, handler)
@@ -40,23 +42,28 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.1)
-            if (varstring.get_value() != ''):
-                a = a + varstring.get_value()
+            await asyncio.sleep(1)
+            if (await varstring.get_value() != ''):
+                a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText2")
-                a = a + varstring.get_value()
+                #a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText3")
-                a = a + varstring.get_value()
+                a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText4")
-                a = a + varstring.get_value()
+                a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText5")
-                a = a + varstring.get_value()
+                a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText6")
-                a = a + varstring.get_value()
+                a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText7")
-                a = a + varstring.get_value()
+                a = a + await varstring.get_value()
+                a.split()
+                ' '.join(a.split())
+                re.sub(r'\s', '', a)
+                print(a)
+                b = a
 
-            self.widget.setText(str(self.widget.starttext + (str(handler.value)) + a))
+            self.widget.setText(str(self.widget.starttext + (str(handler.value)) + ' ' + a))
             #print((self.widget.holder))
 
 
@@ -86,8 +93,8 @@ p = ProcessPoolExecutor(4)
 class StatusLabel(QLabel):
     def __init__(self):
         super(StatusLabel, self).__init__()
-        self.setText("Last status message: ")
-        self.starttext = 'Last status message: '
+        self.setText("Last CNC status message: ")
+        self.starttext = 'Last CNC status message: '
         self.data = 0
         self.holder = dict()
         self.Thread = SubscriptionThread("ns=6;s=::FileInput:ErrorMess", widget=self)

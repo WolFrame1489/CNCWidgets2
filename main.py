@@ -1,7 +1,7 @@
 import sys
 import asyncio
 import asyncua
-from CNCWidgets import (ActionButtons, InputString, MonitorWidgetX, Editor, MonitorWidgetY, ToolBox, MonitorWidgetStatus
+from CNCWidgets import (ActionButtons, InputString, MonitorWidgetX, Editor, MonitorWidgetY, ToolBox, MonitorWidgetStatus, MonitorWidgetStatusX
                         )
 from PyQt5.Qsci import QsciScintilla, QsciLexerPython
 from CNCActions import OPCClient
@@ -17,7 +17,7 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
         super().__init__(parent)
         self.setWindowTitle("Layouttest")
         self.count = 0
-        self.setFixedSize(1280,720)
+        self.setFixedSize(1600,900)
 
         self.layout = QGridLayout()                                   # + self.layout
         self.setLayout(self.layout)
@@ -72,7 +72,8 @@ if __name__ == "__main__":
     #window.layout.addWidget(ActionButtons.JogXPos(), 9, 3, 9, 3)
     #window.layout.addWidget(ToolBox.Toolbox(), 12, 1, 12, 3)
     #window.layout.addWidget(ActionButtons.ChangeTool(), 13, 1, 14, 1)
-    window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 1)
+    window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 0)
+    window.layout.addWidget(MonitorWidgetStatusX.StatusLabel(), 15, 1, 16, 1)
 
     #window.insert_mywidget(InputString.GCodeInput())
     #window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему

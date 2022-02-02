@@ -1,5 +1,6 @@
 import asyncua
 import csv
+import re
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import QThread
 import asyncio
@@ -15,7 +16,7 @@ from concurrent.futures import ProcessPoolExecutor
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from asyncua import Client, Node, ua
-Globalclient = asyncua.Client("opc.tcp://192.168.133.2:4841/")
+Globalclient = asyncua.Client("opc.tcp://localhost:4841/")
 value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):
@@ -30,9 +31,10 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         self.loop.run_until_complete(self.test())
     async def test(self):
         a = ''
+        b =''
         await Globalclient.connect()
         var = Globalclient.get_node(self.nodestring)
-        varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors1")
+        varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError2")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
         subscription = await Globalclient.create_subscription(100, handler)
@@ -41,22 +43,30 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         print("sub created")
         while True:
             await asyncio.sleep(0.1)
-            if (varstring.get_value() != ''):
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors2")
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors3")
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors4")
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors5")
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors6")
-                a = a + varstring.get_value()
-                varstring = Globalclient.get_node("ns=6;s=::Program:YAxisErrors7")
-                a = a + varstring.get_value()
+            if (await varstring.get_value() != ''):
+                a = a + await varstring.get_value()
+                print(a, "ХУЙХУЙХУЙХУХЙХУЙХУЙХУ")
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError2")
+                #a = a + await varstring.get_value()
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError3")
+                a = a + await varstring.get_value()
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError4")
+                a = a + await varstring.get_value()
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError5")
+                a = a + await varstring.get_value()
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError6")
+                a = a + await varstring.get_value()
+                varstring = Globalclient.get_node("ns=6;s=::Program:AxisYError7")
+                a = a + await varstring.get_value()
+                i = 0
+                a.split()
+                ' '.join(a.split())
+                re.sub(r'\s', '', a)
+                print(a)
+                b = a
 
-            self.widget.setText(str(self.widget.starttext + (str(handler.value)) + a))
+            self.widget.setText(str(self.widget.starttext + (str(handler.value)) + ' ' + b))
+            a = ''
             #print((self.widget.holder))
 
 
@@ -86,8 +96,8 @@ p = ProcessPoolExecutor(4)
 class StatusLabel(QLabel):
     def __init__(self):
         super(StatusLabel, self).__init__()
-        self.setText("Last status message: ")
-        self.starttext = 'Last status message: '
+        self.setText("Last Axis Y status message: ")
+        self.starttext = 'Last Axis Y status message: '
         self.data = 0
         self.holder = dict()
         self.Thread = SubscriptionThread("ns=6;s=::Program:YError", widget=self)
@@ -104,4 +114,6 @@ class StatusLabel(QLabel):
                 if ('F' not in cont[i][0]):
                     print(int(cont[i][0]), cont[i][1])
                     self.holder.update(dict.fromkeys([int(cont[i][0]), cont[i][1]]))
+
+
 
