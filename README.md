@@ -8,15 +8,15 @@ Contains several functions:
 3) Buttons widgets for homing, jogging axes, buttons for tool changing (you can find whole list in ActionButtons.py)
 4) Status Widgets for monitoring done using subcription method
 Folders and scripts:
-1.main.py - draws interface with widgets, connects to the machine via OPC UA
-2.OPCActions.py - Contains functions, that change the values of machine variables syncronously, use it for button functions
-3.FTP.py - transfers a file
-4.OPCClient.py - connects to OPC server
-5.Widget files
-6.ActionButtons.py - contains buttons for functions
-7.Editor.py - Scintilla editor
-8.InputString.py - String to input g-codes
-9.MonitorWidgetStatus.py, MonitorWidgetStatusX.py, MonitorWidgetStatusY.py - current status and errors of cnc machine
-10.MonitorWidgetX.py, MonitorWidgetY.py - shows curebnt axis positions
-11.ToolBox - menu for changing tool
+1. main.py - draws interface with widgets, connects to the machine via OPC UA
+2. OPCActions.py - Contains functions, that change the values of machine variables syncronously, use it for button functions
+3. FTP.py - transfers a file
+4. OPCClient.py - connects to OPC server
+5. Widget files
+6. ActionButtons.py - contains buttons for functions
+7. Editor.py - Scintilla editor
+8. InputString.py - String to input g-codes
+9. MonitorWidgetStatus.py, MonitorWidgetStatusX.py, MonitorWidgetStatusY.py - current status and errors of cnc machine
+10. MonitorWidgetX.py, MonitorWidgetY.py - shows curebnt axis positions
+11. ToolBox - menu for changing tool
 Another branch with mappCNC version will be availible soon.
