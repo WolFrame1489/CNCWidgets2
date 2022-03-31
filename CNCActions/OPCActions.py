@@ -66,6 +66,12 @@ async def CNCActionContinueBlock():
     dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
+async def CNCActionPauseBlock():
+    print("stop block")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Pause")
+    dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
 async def SwitchMode(inp):
     print("mode change")
     var = Globalclient.get_node("ns=6;s=::FileInput:Mode")
@@ -104,7 +110,7 @@ async def CNCActionJogY(am, g, s):
     return True
 async def CNCActionChangeTool():
     global Tool
-    var = Globalclient.get_node("ns=6;s=::Program:NeededTool")
-    dv = ua.DataValue(ua.Variant(((Tool)), ua.VariantType.Int16))
+    var = Globalclient.get_node("ns=6;s=::FileInput:Block")
+    dv = ua.DataValue(ua.Variant('M' + (str(Tool + 10)), ua.VariantType.String))
     await var.set_value(dv)
     return True

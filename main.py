@@ -16,8 +16,8 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Layouttest")
+        #self.setFixedSize(1920,1080)
         self.count = 0
-        self.setFixedSize(1600,900)
 
         self.layout = QGridLayout()                                   # + self.layout
         self.setLayout(self.layout)
@@ -43,37 +43,41 @@ class PyQtWindow(QWidget): # эта функция создает окно на 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop() # луп для корутин
-    #FTP.Connect()
-    #client = asyncua.Client("opc.tcp://192.168.133.2:4841/")
+    FTP.Connect()
+    client = asyncua.Client("opc.tcp://192.168.133.2:4841/")
     app = QApplication(sys.argv)
 
-    #OPCClient.Globalclient = client
-    #OPCActions.Globalclient = client
-    #while True:
-     #   if (loop.run_until_complete(OPCClient.Connect(client))):
-      #      break
+    OPCClient.Globalclient = client
+    OPCActions.Globalclient = client
+    while True:
+        if (loop.run_until_complete(OPCClient.Connect(client))):
+            break
     window = PyQtWindow()
     #window.layout.addWidget(MonitorWidgets.CoordX(), 0, 1, 0, 1)
-    #window.layout.addWidget(Editor.GCodeEditor(), 0, 0, 7, 1)
-    #window.layout.addWidget(ActionButtons.UploadFile(), 2, 1, 2, 1)
-    #window.layout.addWidget(ActionButtons.StartBlockButton(), 0, 1, 1, 1)
-    #window.layout.addWidget(ActionButtons.StopBlockButton(), 1, 1, 1, 1)
-    #window.layout.addWidget(ActionButtons.PauseBlockButton(), 2, 1, 2, 1)
-    #window.layout.addWidget(ActionButtons.ContinueBlockButton(), 3, 1, 3, 1)
-    #window.layout.addWidget(ActionButtons.UploadFile(), 4, 1, 4, 1)
-    #window.layout.addWidget(ActionButtons.SwitchModeButton(), 5, 1, 5, 1)
+    window.layout.addWidget(Editor.GCodeEditor(), 0, 0, 7, 1)
+    window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 0)
+    window.layout.addWidget(MonitorWidgetX.CoordX(), 5, 0, 5, 1)
+    window.layout.addWidget(MonitorWidgetY.CoordY(), 6, 0, 6, 1)
+    window.layout.addWidget(ActionButtons.UploadFile(), 2, 1, 2, 1)
+    window.layout.addWidget(ActionButtons.StartBlockButton(), 0, 1, 1, 1)
+    window.layout.addWidget(ActionButtons.StopBlockButton(), 1, 1, 1, 1)
+    window.layout.addWidget(ActionButtons.PauseBlockButton(), 2, 1, 2, 1)
+    window.layout.addWidget(ActionButtons.ContinueBlockButton(), 3, 1, 3, 1)
+    window.layout.addWidget(ActionButtons.UploadFile(), 4, 1, 4, 1)
+    window.layout.addWidget(ActionButtons.SwitchModeButton(), 5, 1, 5, 1)
+    window.layout.addWidget(ActionButtons.HomeAllHereButton(), 20, 1 , 20, 1)
+    window.layout.addWidget(ActionButtons.JogYPos(), 10, 1, 10, 1)
+    window.layout.addWidget(ActionButtons.JoggingModeButton(), 8, 1, 8, 1)
+    window.layout.addWidget(ActionButtons.JogYNeg(), 10, 3, 10, 3)
+    window.layout.addWidget(ActionButtons.JogXNeg(), 9, 1, 9, 1)
+    window.layout.addWidget(ActionButtons.JogXPos(), 9, 3, 9, 3)
+
     #window.layout.addWidget(MonitorWidgetX.CoordX(), 5, 0, 5, 1)
     #window.layout.addWidget(MonitorWidgetY.CoordY(), 6, 0, 6, 1)
-    #window.layout.addWidget(ActionButtons.HomeAllHereButton(), 7, 0 , 7, 1)
-    #window.layout.addWidget(ActionButtons.JogYPos(), 10, 1, 10, 1)
-    #window.layout.addWidget(ActionButtons.JoggingModeButton(), 8, 1, 8, 1)
-    #window.layout.addWidget(ActionButtons.JogYNeg(), 10, 3, 10, 3)
-    #window.layout.addWidget(ActionButtons.JogXNeg(), 9, 1, 9, 1)
-    #window.layout.addWidget(ActionButtons.JogXPos(), 9, 3, 9, 3)
-    #window.layout.addWidget(ToolBox.Toolbox(), 12, 1, 12, 3)
-    #window.layout.addWidget(ActionButtons.ChangeTool(), 13, 1, 14, 1)
-    window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 0)
-    window.layout.addWidget(MonitorWidgetStatusX.StatusLabel(), 15, 1, 16, 1)
+    window.layout.addWidget(ToolBox.Toolbox(), 12, 1, 12, 3)
+    window.layout.addWidget(ActionButtons.ChangeTool(), 13, 1, 14, 1)
+    #window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 0)
+    #window.layout.addWidget(MonitorWidgetStatusX.StatusLabel(), 15, 1, 16, 1)
 
     #window.insert_mywidget(InputString.GCodeInput())
     #window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему

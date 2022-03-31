@@ -24,15 +24,21 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         varmode = Globalclient.get_node("ns=6;s=::FileInput:Run")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
-        subscription = await Globalclient.create_subscription(100, handler)
+        subscription = await Globalclient.create_subscription(200, handler)
         # We subscribe to data changes for two nodes (variables).
         await subscription.subscribe_data_change(var)
-        print("sub created")
+        print("editor sub created")
         while True:
-            await asyncio.sleep(0.001)
-            FTP.text = self.widget.text()
-            if (await varmode.get_value() == 1):
-                self.widget.setCursorPosition(handler.value - 1, 0)
+            await asyncio.sleep(1)
+            #self.widget.setCursorPosition(handler.value, 0)
+            #FTP.text = self.widget.text()
+            if ((handler.value == 1) and (await varmode.get_value() == 1)):
+                self.widget.setCursorPosition(0, 0)
+            if ((await varmode.get_value() == 1) and (handler.value > 1)):
+                try:
+                    self.widget.setCursorPosition(handler.value - 1, 0)
+                except:
+                    print('test')
                 if (list(self.widget.getCursorPosition())[0] != handler.value):
                     self.widget.setCursorPosition(handler.value - 1, 0)
 
