@@ -110,7 +110,7 @@ async def CNCActionJogY(am, g, s):
     return True
 async def CNCActionChangeTool():
     global Tool
-    var = Globalclient.get_node("ns=6;s=::FileInput:Block")
-    dv = ua.DataValue(ua.Variant('M' + (str(Tool + 10)), ua.VariantType.String))
+    var = Globalclient.get_node("ns=6;s=::Program:NeededTool")
+    dv = ua.DataValue(ua.Variant((Tool), ua.VariantType.Int16))
     await var.set_value(dv)
     return True

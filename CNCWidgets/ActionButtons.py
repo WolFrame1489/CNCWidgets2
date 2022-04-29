@@ -139,7 +139,6 @@ class PauseBlockButton(QPushButton):
         self.setText("Pause NC Program")
         self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
-        self.loop.run_until_complete(OPCActions.CNCActionPauseBlock())
     def Debug(self):
         print("YES")
     def Act(self):
