@@ -81,7 +81,6 @@ if __name__ == "__main__":
 
     #window.insert_mywidget(InputString.GCodeInput())
     #window.insert_mywidget(MonitorWidgets.CoordX())  #лейблы должны создавться раньше кнопок хз почему
-
     #window.insert_mywidget((ActionButtons.PowerButton()))
     #window.insert_mywidget(ActionButtons.HomeAllHereButton())
     window.show()

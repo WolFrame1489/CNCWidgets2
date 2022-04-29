@@ -191,8 +191,10 @@ class JogXPos(QPushButton):
     def __init__(self):
         super(JogXPos, self).__init__()
         self.setText("X+")
-        self.setCheckable(True)
-        self.clicked.connect(self.Act)
+        #self.setCheckable(True)
+        self.released.connect(self.releasedbut)
+        self.pressed.connect(self.pressedbut)
+        #self.clicked.connect(self.Act)
         self.loop = asyncio.get_event_loop()
         self.amount = 32767
         self.stop = 0
@@ -207,12 +209,22 @@ class JogXPos(QPushButton):
             self.stop = 1
             self.go = 0
             self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
+    def releasedbut(self):
+        print("button is released")
+        self.stop = 1
+        self.go = 0
+        self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
+    def pressedbut(self):
+        print("button is pressed")
+        self.stop = 0
+        self.go = 1
+        self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
 class JogXNeg(QPushButton):
     def __init__(self):
         super(JogXNeg, self).__init__()
         self.setText("X-")
-        self.setCheckable(True)
-        self.clicked.connect(self.Act)
+        self.released.connect(self.releasedbut)
+        self.pressed.connect(self.pressedbut)
         self.loop = asyncio.get_event_loop()
         self.amount = (-32767)
         self.stop = 0
@@ -227,12 +239,20 @@ class JogXNeg(QPushButton):
             self.stop = 1
             self.go = 0
             self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
+    def pressedbut(self):
+        self.stop = 0
+        self.go = 1
+        self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
+    def releasedbut(self):
+        self.stop = 1
+        self.go = 0
+        self.loop.run_until_complete(OPCActions.CNCActionJogX(self.amount, self.go, self.stop))
 class JogYPos(QPushButton):
     def __init__(self):
         super(JogYPos, self).__init__()
         self.setText("Y+")
-        self.setCheckable(True)
-        self.clicked.connect(self.Act)
+        self.released.connect(self.releasedbut)
+        self.pressed.connect(self.pressedbut)
         self.loop = asyncio.get_event_loop()
         self.amount = 32767
         self.stop = 0
@@ -247,12 +267,20 @@ class JogYPos(QPushButton):
             self.stop = 1
             self.go = 0
             self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
+    def pressedbut(self):
+        self.stop = 0
+        self.go = 1
+        self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
+    def releasedbut(self):
+        self.stop = 1
+        self.go = 0
+        self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
 class JogYNeg(QPushButton):
     def __init__(self):
         super(JogYNeg, self).__init__()
         self.setText("Y-")
-        self.setCheckable(True)
-        self.clicked.connect(self.Act)
+        self.released.connect(self.releasedbut)
+        self.pressed.connect(self.pressedbut)
         self.loop = asyncio.get_event_loop()
         self.amount = (-32767)
         self.stop = 0
@@ -269,6 +297,16 @@ class JogYNeg(QPushButton):
             self.stop = 1
             self.go = 0
             self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
+    def releasedbut(self):
+        print("stop y")
+        self.stop = 1
+        self.go = 0
+        self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
+    def pressedbut(self):
+        self.stop = 0
+        self.go = 1
+        self.loop.run_until_complete(OPCActions.CNCActionJogY(self.amount, self.go, self.stop))
+        print("go y")
 class ChangeTool(QPushButton):
     def __init__(self):
         super(ChangeTool, self).__init__()

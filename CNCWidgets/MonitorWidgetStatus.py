@@ -1,4 +1,5 @@
 import asyncua
+import random
 import re
 import csv
 from PyQt5.QtWidgets import QLabel
@@ -35,6 +36,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await Globalclient.connect()
         var = Globalclient.get_node(self.nodestring)
         varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText2")
+        varconnection = Globalclient.get_node("ns=6;s=::Program:Connection")
         handler = SubscriptionHandler()
         # We create a Client Subscription.
         subscription = await Globalclient.create_subscription(100, handler)
@@ -43,6 +45,9 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         print("sub created")
         while True:
             await asyncio.sleep(1)
+            x = random.randint(1, 1000)
+            dv = ua.DataValue(ua.Variant(int(x), ua.VariantType.Int16))
+            await varconnection.set_value(dv)
             if (await varstring.get_value() != ''):
                 a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::FileInput:ErrorText2")
