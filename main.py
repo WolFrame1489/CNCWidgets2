@@ -52,7 +52,9 @@ if __name__ == "__main__":
         if (loop.run_until_complete(OPCClient.Connect(client))):
             break
     window = PyQtWindow()
-    #window.insert_mywidget(InputString.GCodeInput())
-    #window.insert_mywidget((ActionButtons.PowerButton()))
+    window.layout.addWidget(MonitorWidgetX.CoordX(), 5, 0, 5, 1)
+    window.layout.addWidget(MonitorWidgetY.CoordY(), 6, 0, 6, 1)
+    window.insert_mywidget(InputString.GCodeInput(), 0, 0, 1, 1)
+    #window.insert_mywidget((ActionButtons.PowerButton()), 0, 0, 1, 1)
     window.show()
     sys.exit(app.exec_())
