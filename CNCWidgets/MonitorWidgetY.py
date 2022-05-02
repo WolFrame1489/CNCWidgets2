@@ -14,7 +14,7 @@ from concurrent.futures import ProcessPoolExecutor
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from asyncua import Client, Node, ua
-Globalclient = asyncua.Client("opc.tcp://192.168.133.2:4841/")
+Globalclient = asyncua.Client("opc.tcp://10.0.1.10:4841/")
 value = 0
 class SubscriptionThread(QThread): #отдельный поток для цикла подписки
     def __init__(self, nodestring, widget, parent = None ):
@@ -65,15 +65,6 @@ logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger('asyncua')
 from CNCActions import OPCClient
 p = ProcessPoolExecutor(4)
-class CoordX(QLabel):
-    def __init__(self):
-        super(CoordX, self).__init__()
-        self.setText("X: ")
-        self.starttext = 'X: '
-        self.data = 0
-        self.Thread = SubscriptionThread("ns=6;s=::AsGlobalPV:X", widget=self)
-        self.Thread.start() #cоздаем отдельный поток qt
-        print(threading.active_count())
 class CoordY(QLabel):
     def __init__(self):
         super(CoordY, self).__init__()

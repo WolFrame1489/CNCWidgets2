@@ -114,3 +114,10 @@ async def CNCActionChangeTool():
     dv = ua.DataValue(ua.Variant((Tool), ua.VariantType.Int16))
     await var.set_value(dv)
     return True
+async def CNCActionSendblock():
+    print("power")
+    global GlobalGCODEString
+    var = Globalclient.get_node("ns=6;s=::Program:Power")
+    dv = ua.DataValue(ua.Variant(power, ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
