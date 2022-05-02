@@ -1,6 +1,6 @@
 from asyncua import (ua, Client)
 import asyncio
-Globalclient = Client("opc.tcp://192.168.133.2:4841/")
+Globalclient = Client("opc.tcp://10.0.1.10:4841/")
 GlobalGCODEString = "" #cрока для хранения жкода
 Tool = 1
 async def CNCActionPower(power):
