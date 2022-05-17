@@ -76,6 +76,8 @@ if __name__ == "__main__":
     #window.layout.addWidget(MonitorWidgetY.CoordY(), 6, 0, 6, 1)
     window.layout.addWidget(ToolBox.Toolbox(), 12, 1, 12, 3)
     window.layout.addWidget(ActionButtons.ChangeTool(), 13, 1, 14, 1)
+    window.layout.addWidget(InputString.GCodeInput(), 15, 0, 16, 1)
+    window.layout.addWidget(ActionButtons.StartBlockButton2(), 17, 1, 17, 1)
     #window.layout.addWidget(MonitorWidgetStatus.StatusLabel(), 14, 0, 14, 0)
     #window.layout.addWidget(MonitorWidgetStatusX.StatusLabel(), 15, 1, 16, 1)
 

@@ -113,6 +113,16 @@ class StartBlockButton(QPushButton):
         print("YES")
     def Act(self):
         self.loop.run_until_complete(OPCActions.CNCActionStartBlock(OPCActions.GlobalGCODEString))
+class StartBlockButton2(QPushButton):
+    def __init__(self):
+        super(StartBlockButton2, self).__init__()
+        self.setText("Start NC Block")
+        self.clicked.connect(self.Act)
+        self.loop = asyncio.get_event_loop()
+    def Debug(self):
+        print("YES")
+    def Act(self):
+        self.loop.run_until_complete(OPCActions.CNCActionStartBlockSmall(OPCActions.GlobalGCODEString))
 class StopBlockButton(QPushButton):
     def __init__(self):
         super(StopBlockButton, self).__init__()

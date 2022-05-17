@@ -54,6 +54,15 @@ async def CNCActionStartBlock(block):
     dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
     await var.set_value(dv)
     return True
+async def CNCActionStartBlockSmall(block):
+    print("start block")
+    var = Globalclient.get_node("ns=6;s=::FileInput:Block")
+    dv = ua.DataValue(ua.Variant(block, ua.VariantType.String))
+    await var.set_value(dv)
+    var = Globalclient.get_node("ns=6;s=::FileInput:StartBlock")
+    dv = ua.DataValue(ua.Variant(bool(1), ua.VariantType.Boolean))
+    await var.set_value(dv)
+    return True
 async def CNCActionStopBlock():
     print("stop block")
     var = Globalclient.get_node("ns=6;s=::FileInput:Stop")

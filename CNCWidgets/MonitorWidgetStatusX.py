@@ -42,10 +42,9 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(2)
             if (await varstring.get_value() != ''):
                 a = a + await varstring.get_value()
-                print(a, "ХУЙХУЙХУЙХУХЙХУЙХУЙХУ")
                 varstring = Globalclient.get_node("ns=6;s=::Program:AxisXError2")
                 #a = a + await varstring.get_value()
                 varstring = Globalclient.get_node("ns=6;s=::Program:AxisXError3")

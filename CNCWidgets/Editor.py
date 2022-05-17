@@ -29,7 +29,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("editor sub created")
         while True:
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
             #self.widget.setCursorPosition(handler.value, 0)
             #FTP.text = self.widget.text()
             if ((handler.value == 1) and (await varmode.get_value() == 1)):

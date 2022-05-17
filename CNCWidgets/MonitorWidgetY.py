@@ -38,7 +38,7 @@ class SubscriptionThread(QThread): #отдельный поток для цик�
         await subscription.subscribe_data_change(var)
         print("sub created")
         while True:
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(1)
             self.widget.setText(str(self.widget.starttext + (str(handler.value))))
 
 
